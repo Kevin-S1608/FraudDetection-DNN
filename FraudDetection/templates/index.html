@@ -1,0 +1,1357 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Fraud AI | Transaction Detection</title>
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+
+        body {
+            background: #f4ead8;
+            color: #4b1f24;
+            min-height: 100vh;
+        }
+
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        header {
+            background: #5b2028;
+            color: #f8ecd9;
+            padding: 22px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 4px solid #c79b63;
+        }
+
+
+        .logo {
+            font-size: 26px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+
+        .header-status {
+            background: #ead7bb;
+            color: #5b2028;
+            padding: 9px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        main {
+            width: 86%;
+            max-width: 1250px;
+            margin: 35px auto;
+        }
+
+
+        .hero {
+            margin-bottom: 30px;
+        }
+
+
+        .hero h1 {
+            font-size: 38px;
+            margin-bottom: 8px;
+        }
+
+
+        .hero p {
+            font-size: 16px;
+            color: #76545a;
+        }
+
+
+        /* =========================
+           CARD
+        ========================= */
+
+        .card {
+            background: #fff8ec;
+            border: 1px solid #dbc6a8;
+            border-radius: 16px;
+            padding: 28px;
+            margin-bottom: 28px;
+            box-shadow: 0 5px 18px rgba(91, 32, 40, 0.08);
+        }
+
+
+        .card-title {
+            font-size: 21px;
+            font-weight: bold;
+            margin-bottom: 22px;
+        }
+
+
+        /* =========================
+           INPUTS
+        ========================= */
+
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+        }
+
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+
+        .input-group label {
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 7px;
+            color: #6c444a;
+        }
+
+
+        .input-group input {
+            padding: 12px;
+            border: 1px solid #cdb99b;
+            border-radius: 8px;
+            background: #fffdf8;
+            color: #4b1f24;
+            outline: none;
+            font-size: 14px;
+        }
+
+
+        .input-group input:focus {
+            border-color: #8a3b46;
+            box-shadow: 0 0 0 2px rgba(138, 59, 70, 0.12);
+        }
+
+
+        /* =========================
+           QUICK TEST
+        ========================= */
+
+        .quick-test {
+            margin-top: 25px;
+            padding: 18px;
+            background: #f3e5cf;
+            border-radius: 12px;
+        }
+
+
+        .quick-title {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+
+        .quick-buttons {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+
+        .quick-btn {
+            padding: 10px 16px;
+            border-radius: 8px;
+            border: 1px solid #9b5a61;
+            background: #fff8ec;
+            color: #6b2630;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+
+        .quick-btn:hover {
+            background: #6b2630;
+            color: #fff8ec;
+        }
+
+
+        .clear-btn {
+            border-color: #b79d7e;
+            color: #76545a;
+        }
+
+
+        .clear-btn:hover {
+            background: #76545a;
+            color: #fff8ec;
+        }
+
+
+        /* =========================
+           ANALYZE BUTTON
+        ========================= */
+
+        .analyze-btn {
+            margin-top: 20px;
+            width: 100%;
+            padding: 14px;
+            background: #6b2630;
+            color: #fff8ec;
+            border: none;
+            border-radius: 9px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+
+        .analyze-btn:hover {
+            background: #4f1c24;
+        }
+
+
+        /* =========================
+           ANALYSIS
+        ========================= */
+
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+
+        .result-box {
+            padding: 22px;
+            border-radius: 12px;
+            background: #f1e2ca;
+            border-left: 5px solid #7a303b;
+        }
+
+
+        .result-label {
+            font-size: 13px;
+            color: #76545a;
+            margin-bottom: 8px;
+        }
+
+
+        .result-value {
+            font-size: 23px;
+            font-weight: bold;
+            color: #5b2028;
+        }
+
+
+        .probability {
+            font-size: 32px;
+            font-weight: bold;
+            margin-top: 8px;
+            color: #7a303b;
+        }
+
+
+        .progress-container {
+            width: 100%;
+            height: 10px;
+            background: #e1cfb4;
+            border-radius: 20px;
+            margin-top: 15px;
+            overflow: hidden;
+        }
+
+
+        .progress-bar {
+            height: 100%;
+            background: #7a303b;
+            border-radius: 20px;
+        }
+
+
+        .status {
+            margin-top: 15px;
+            font-size: 13px;
+            color: #76545a;
+        }
+
+
+        /* =========================
+           MODEL
+        ========================= */
+
+        .model-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+
+        .model-box {
+            background: #f1e2ca;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+
+        .model-box h3 {
+            font-size: 20px;
+            margin-bottom: 7px;
+        }
+
+
+        .model-box p {
+            font-size: 13px;
+            color: #76545a;
+            line-height: 1.5;
+        }
+
+
+        /* =========================
+           HISTORY
+        ========================= */
+
+        .history-table-wrapper {
+            overflow-x: auto;
+        }
+
+
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 700px;
+        }
+
+
+        .history-table th {
+            background: #6b2630;
+            color: #fff8ec;
+            padding: 14px;
+            text-align: left;
+            font-size: 13px;
+        }
+
+
+        .history-table td {
+            padding: 14px;
+            border-bottom: 1px solid #dbc6a8;
+            font-size: 13px;
+        }
+
+
+        .history-table tr:hover {
+            background: #f7eddd;
+        }
+
+
+        .fraud {
+            color: #8a2635;
+            font-weight: bold;
+        }
+
+
+        .legitimate {
+            color: #47633d;
+            font-weight: bold;
+        }
+
+
+        .empty-history {
+            text-align: center;
+            padding: 30px;
+            color: #76545a;
+            font-size: 14px;
+        }
+
+
+        /* =========================
+           PERFORMANCE
+        ========================= */
+
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+
+        .metric {
+            background: #f1e2ca;
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+        }
+
+
+        .metric h3 {
+            font-size: 27px;
+            color: #6b2630;
+            margin-bottom: 6px;
+        }
+
+
+        .metric p {
+            font-size: 13px;
+            color: #76545a;
+        }
+
+
+        /* =========================
+           CONFUSION MATRIX
+        ========================= */
+
+        .matrix-wrapper {
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+            overflow-x: auto;
+        }
+
+
+        .confusion-matrix {
+            border-collapse: collapse;
+            text-align: center;
+        }
+
+
+        .confusion-matrix th,
+        .confusion-matrix td {
+            border: 1px solid #bfa98b;
+            padding: 18px 25px;
+        }
+
+
+        .confusion-matrix th {
+            background: #6b2630;
+            color: #fff8ec;
+        }
+
+
+        .confusion-matrix td {
+            background: #f1e2ca;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+
+        .matrix-info {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+
+        .matrix-item {
+            padding: 14px;
+            background: #f5ead8;
+            border-radius: 8px;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+
+        .matrix-item strong {
+            color: #6b2630;
+        }
+
+
+        /* =========================
+           DATASET
+        ========================= */
+
+        .dataset-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+
+        .dataset-box {
+            background: #f1e2ca;
+            padding: 22px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+
+        .dataset-box h2 {
+            font-size: 27px;
+            color: #6b2630;
+        }
+
+
+        .dataset-box p {
+            margin-top: 6px;
+            font-size: 13px;
+            color: #76545a;
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            margin-top: 50px;
+            background: #5b2028;
+            color: #ead7bb;
+            text-align: center;
+            padding: 22px;
+            font-size: 13px;
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 900px) {
+
+            .input-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .analysis-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .metrics {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .dataset-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .matrix-info {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+
+        @media (max-width: 600px) {
+
+            header {
+                flex-direction: column;
+                gap: 12px;
+                text-align: center;
+            }
+
+            .hero h1 {
+                font-size: 30px;
+            }
+
+            .input-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .model-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .metrics {
+                grid-template-columns: 1fr;
+            }
+
+            .dataset-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .matrix-info {
+                grid-template-columns: 1fr;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <div class="logo">
+        Fraud AI
+    </div>
+
+    <div class="header-status">
+        ● DNN MODEL ONLINE
+    </div>
+
+</header>
+
+
+<main>
+
+
+    <section class="hero">
+
+        <h1>
+            Intelligent Financial Transaction Detection
+        </h1>
+
+        <p>
+            Deep Neural Network based fraud detection using
+            ReLU and Sigmoid activation functions.
+        </p>
+
+    </section>
+
+
+    <!-- =========================
+         TRANSACTION ANALYSIS
+    ========================= -->
+
+    <section class="card">
+
+        <div class="card-title">
+            Transaction Analysis
+        </div>
+
+
+        <form method="POST">
+
+
+            <div class="input-grid">
+
+
+                <div class="input-group">
+
+                    <label>Time</label>
+
+                    <input
+                        type="number"
+                        step="any"
+                        id="time"
+                        name="time"
+                        placeholder="Enter Time"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>Amount</label>
+
+                    <input
+                        type="number"
+                        step="any"
+                        id="amount"
+                        name="amount"
+                        placeholder="Enter Amount"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>V1</label>
+
+                    <input
+                        type="number"
+                        step="any"
+                        id="v1"
+                        name="v1"
+                        placeholder="Enter V1"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>V2</label>
+
+                    <input
+                        type="number"
+                        step="any"
+                        id="v2"
+                        name="v2"
+                        placeholder="Enter V2"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>V3</label>
+
+                    <input
+                        type="number"
+                        step="any"
+                        id="v3"
+                        name="v3"
+                        placeholder="Enter V3"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>V4</label>
+
+                    <input
+                        type="number"
+                        step="any"
+                        id="v4"
+                        name="v4"
+                        placeholder="Enter V4"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>V5</label>
+
+                    <input
+                        type="number"
+                        step="any"
+                        id="v5"
+                        name="v5"
+                        placeholder="Enter V5"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>V6</label>
+
+                    <input
+                        type="number"
+                        step="any"
+                        id="v6"
+                        name="v6"
+                        placeholder="Enter V6"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 QUICK TEST
+            ========================= -->
+
+            <div class="quick-test">
+
+                <div class="quick-title">
+                    Quick Test Samples
+                </div>
+
+
+                <div class="quick-buttons">
+
+                    <button
+                        type="button"
+                        class="quick-btn"
+                        onclick="loadLegitimate()"
+                    >
+                        Load Legitimate Sample
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="quick-btn"
+                        onclick="loadFraud()"
+                    >
+                        Load Fraud Sample
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="quick-btn clear-btn"
+                        onclick="clearInputs()"
+                    >
+                        Clear Inputs
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="analyze-btn"
+            >
+                Analyze Transaction
+            </button>
+
+
+        </form>
+
+    </section>
+
+
+    <!-- =========================
+         AI ANALYSIS
+    ========================= -->
+
+    {% if result %}
+
+    <section class="card">
+
+        <div class="card-title">
+            AI Analysis
+        </div>
+
+
+        <div class="analysis-grid">
+
+
+            <div class="result-box">
+
+                <div class="result-label">
+                    Prediction
+                </div>
+
+                <div class="result-value">
+                    {{ result }}
+                </div>
+
+                <div class="status">
+                    {{ status }}
+                </div>
+
+            </div>
+
+
+            <div class="result-box">
+
+                <div class="result-label">
+                    Fraud Probability
+                </div>
+
+                <div class="probability">
+                    {{ probability }}%
+                </div>
+
+
+                <div class="progress-container">
+
+                    <div
+                        class="progress-bar"
+                        style="width: {{ probability }}%;"
+                    ></div>
+
+                </div>
+
+
+                <div class="status">
+                    Confidence: {{ confidence }}%
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+    {% endif %}
+
+
+    <!-- =========================
+         MODEL
+    ========================= -->
+
+    <section class="card">
+
+        <div class="card-title">
+            Deep Neural Network
+        </div>
+
+
+        <div class="model-grid">
+
+
+            <div class="model-box">
+
+                <h3>ReLU</h3>
+
+                <p>
+                    Activation used in hidden layers
+                    to learn non-linear patterns.
+                </p>
+
+            </div>
+
+
+            <div class="model-box">
+
+                <h3>ReLU</h3>
+
+                <p>
+                    Second hidden layer helps the
+                    network learn deeper relationships.
+                </p>
+
+            </div>
+
+
+            <div class="model-box">
+
+                <h3>Sigmoid</h3>
+
+                <p>
+                    Output activation used for
+                    binary fraud classification.
+                </p>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         TRANSACTION HISTORY
+    ========================= -->
+
+    <section class="card">
+
+        <div class="card-title">
+            Transaction History
+        </div>
+
+
+        {% if transaction_history %}
+
+        <div class="history-table-wrapper">
+
+            <table class="history-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Time</th>
+                        <th>Amount</th>
+                        <th>Prediction</th>
+                        <th>Fraud Probability</th>
+                        <th>Confidence</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for transaction in transaction_history %}
+
+                    <tr>
+
+                        <td>
+                            {{ transaction.time }}
+                        </td>
+
+                        <td>
+                            ₹{{ transaction.amount }}
+                        </td>
+
+                        <td>
+
+                            {% if "FRAUDULENT" in transaction.prediction %}
+
+                            <span class="fraud">
+                                {{ transaction.prediction }}
+                            </span>
+
+                            {% else %}
+
+                            <span class="legitimate">
+                                {{ transaction.prediction }}
+                            </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+                            {{ transaction.probability }}%
+                        </td>
+
+                        <td>
+                            {{ transaction.confidence }}%
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        {% else %}
+
+        <div class="empty-history">
+
+            No transactions analyzed yet.
+
+            <br>
+
+            Analyze a transaction above to see
+            your prediction history here.
+
+        </div>
+
+        {% endif %}
+
+    </section>
+
+
+    <!-- =========================
+         MODEL PERFORMANCE
+    ========================= -->
+
+    <section class="card">
+
+        <div class="card-title">
+            Model Performance
+        </div>
+
+
+        <div class="metrics">
+
+
+            <div class="metric">
+
+                <h3>{{ accuracy }}%</h3>
+
+                <p>Accuracy</p>
+
+            </div>
+
+
+            <div class="metric">
+
+                <h3>{{ precision }}%</h3>
+
+                <p>Precision</p>
+
+            </div>
+
+
+            <div class="metric">
+
+                <h3>{{ recall }}%</h3>
+
+                <p>Recall</p>
+
+            </div>
+
+
+            <div class="metric">
+
+                <h3>{{ f1_score }}%</h3>
+
+                <p>F1-Score</p>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         CONFUSION MATRIX
+    ========================= -->
+
+    <section class="card">
+
+        <div class="card-title">
+            Confusion Matrix
+        </div>
+
+
+        <div class="matrix-wrapper">
+
+            <table class="confusion-matrix">
+
+                <tr>
+
+                    <th></th>
+
+                    <th>Predicted Legitimate</th>
+
+                    <th>Predicted Fraud</th>
+
+                </tr>
+
+
+                <tr>
+
+                    <th>Actual Legitimate</th>
+
+                    <td>{{ true_negative }}</td>
+
+                    <td>{{ false_positive }}</td>
+
+                </tr>
+
+
+                <tr>
+
+                    <th>Actual Fraud</th>
+
+                    <td>{{ false_negative }}</td>
+
+                    <td>{{ true_positive }}</td>
+
+                </tr>
+
+            </table>
+
+        </div>
+
+
+        <div class="matrix-info">
+
+
+            <div class="matrix-item">
+
+                <strong>TN — {{ true_negative }}</strong>
+
+                <br>
+
+                Legitimate transactions correctly identified.
+
+            </div>
+
+
+            <div class="matrix-item">
+
+                <strong>FP — {{ false_positive }}</strong>
+
+                <br>
+
+                Legitimate transactions incorrectly flagged as fraud.
+
+            </div>
+
+
+            <div class="matrix-item">
+
+                <strong>FN — {{ false_negative }}</strong>
+
+                <br>
+
+                Fraudulent transactions incorrectly classified as legitimate.
+
+            </div>
+
+
+            <div class="matrix-item">
+
+                <strong>TP — {{ true_positive }}</strong>
+
+                <br>
+
+                Fraudulent transactions correctly detected.
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         DATASET
+    ========================= -->
+
+    <section class="card">
+
+        <div class="card-title">
+            Dataset Overview
+        </div>
+
+
+        <div class="dataset-grid">
+
+
+            <div class="dataset-box">
+
+                <h2>5,100</h2>
+
+                <p>Total Transactions</p>
+
+            </div>
+
+
+            <div class="dataset-box">
+
+                <h2>5,000</h2>
+
+                <p>Legitimate</p>
+
+            </div>
+
+
+            <div class="dataset-box">
+
+                <h2>100</h2>
+
+                <p>Fraudulent</p>
+
+            </div>
+
+
+            <div class="dataset-box">
+
+                <h2>8</h2>
+
+                <p>Input Features</p>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+<footer>
+
+    Fraud AI — Deep Neural Network Fraud Detection System
+
+</footer>
+
+
+<!-- =========================
+     JAVASCRIPT
+========================= -->
+
+<script>
+
+    function loadLegitimate() {
+
+        document.getElementById("time").value =
+            {{ legitimate_sample.time }};
+
+        document.getElementById("amount").value =
+            {{ legitimate_sample.amount }};
+
+        document.getElementById("v1").value =
+            {{ legitimate_sample.v1 }};
+
+        document.getElementById("v2").value =
+            {{ legitimate_sample.v2 }};
+
+        document.getElementById("v3").value =
+            {{ legitimate_sample.v3 }};
+
+        document.getElementById("v4").value =
+            {{ legitimate_sample.v4 }};
+
+        document.getElementById("v5").value =
+            {{ legitimate_sample.v5 }};
+
+        document.getElementById("v6").value =
+            {{ legitimate_sample.v6 }};
+    }
+
+
+    function loadFraud() {
+
+        document.getElementById("time").value =
+            {{ fraud_sample.time }};
+
+        document.getElementById("amount").value =
+            {{ fraud_sample.amount }};
+
+        document.getElementById("v1").value =
+            {{ fraud_sample.v1 }};
+
+        document.getElementById("v2").value =
+            {{ fraud_sample.v2 }};
+
+        document.getElementById("v3").value =
+            {{ fraud_sample.v3 }};
+
+        document.getElementById("v4").value =
+            {{ fraud_sample.v4 }};
+
+        document.getElementById("v5").value =
+            {{ fraud_sample.v5 }};
+
+        document.getElementById("v6").value =
+            {{ fraud_sample.v6 }};
+    }
+
+
+    function clearInputs() {
+
+        document.getElementById("time").value = "";
+        document.getElementById("amount").value = "";
+        document.getElementById("v1").value = "";
+        document.getElementById("v2").value = "";
+        document.getElementById("v3").value = "";
+        document.getElementById("v4").value = "";
+        document.getElementById("v5").value = "";
+        document.getElementById("v6").value = "";
+
+    }
+
+</script>
+
+
+</body>
+
+</html>
